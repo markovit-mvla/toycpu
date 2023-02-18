@@ -1,2 +1,3 @@
 # toycpu
-8-bit CPU
+* 8-bit CPU
+* WIP
