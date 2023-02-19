@@ -6,54 +6,54 @@
 #include <stdint.h>
 #include <stdio.h>
 
-struct CPU
+typedef struct
 {
 	uint8_t reg_a;
 	uint8_t reg_b;
-};
+} CPU;
 
-void init_cpu(struct CPU *cpu, uint8_t reg_a, uint8_t reg_b)
+void init_cpu(CPU *cpu, uint8_t reg_a, uint8_t reg_b)
 {
 	cpu->reg_a = reg_a;
 	cpu->reg_b = reg_b;
 }
 
-void set_reg_a(struct CPU *cpu, uint8_t val)
+void set_reg_a(CPU *cpu, uint8_t val)
 {
 	cpu->reg_a = val;
 }
 
-void set_reg_b(struct CPU *cpu, uint8_t val) 
+void set_reg_b(CPU *cpu, uint8_t val) 
 {
 	cpu->reg_b = val;
 }
 
-void setmem_reg_a(struct CPU *cpu, int mem[], int pos)
+void setmem_reg_a(CPU *cpu, int mem[], int pos)
 {
 	cpu->reg_a = mem[pos];
 }
 
-void memset_reg_a(struct CPU *cpu, int *mem[], int pos) 
+void memset_reg_a(CPU *cpu, int *mem[], int pos) 
 {
 	mem[(int)mem[pos+1]] = cpu->reg_a;
 }
 
-void add(struct CPU *cpu)
+void add(CPU *cpu)
 {
 	cpu->reg_a = cpu->reg_a + cpu->reg_b;
 }
 
-void sub(struct CPU *cpu) 
+void sub(CPU *cpu) 
 {
 	cpu->reg_a = cpu->reg_a - cpu->reg_b;
 }
 
-int jmp(struct CPU *cpu, uint8_t pos)
+int jmp(CPU *cpu, uint8_t pos)
 {
 	return (int) pos;
 }
 
-int jz(struct CPU *cpu, int curr, uint8_t pos)
+int jz(CPU *cpu, int curr, uint8_t pos)
 {
 	if (cpu->reg_a == 0) {
 		return (int) pos-1;
@@ -61,17 +61,17 @@ int jz(struct CPU *cpu, int curr, uint8_t pos)
 	return curr;
 }
 
-void print_cpu(struct CPU *cpu)
+void print_cpu(CPU *cpu)
 {
 	printf("Register A: %d\tRegister B: %d\n", cpu->reg_a, cpu->reg_b);
 }
 
-void print_char(struct CPU *cpu) 
+void print_char(CPU *cpu) 
 {
 	printf("%c\n", (char) cpu->reg_a);
 }
 
-void exec_mem(struct CPU *cpu, int mem[]) 
+void exec_mem(CPU *cpu, int mem[]) 
 {
 	int len = sizeof(mem)/sizeof(mem[0]);
 	int i = 0;
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 		11,    // Halt if zero
 		72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100, // "Hello World"
 	};
-	struct CPU cpu = {0, 0};
+	CPU cpu = {0, 0};
 	exec_mem(&cpu, mem);
 	printf("CPU Initialized Correctly & Memory Executed.\n");
 }
